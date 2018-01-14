@@ -1,5 +1,4 @@
 #include <iostream>
-#include <curl/curl.h>
 #include <string>
 
 #include "maps.h"

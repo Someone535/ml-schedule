@@ -3,7 +3,7 @@
 
 #include <string>
 #include <iostream>
-#include <curl/curl.h>
+#include "mycurl.h"
 
 using namespace std;
 
