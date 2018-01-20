@@ -5,21 +5,30 @@
 
 using namespace std;
 
-void curlTest ( string url_string ) {
+string curlTest ( string url_string ) {
 
         mycurl mycurl_h;
 
         mycurl_h.send_url( url_string );
 
-        string data = mycurl_h.response;
-                                                                                                                  cout << endl << data << endl;                                                                     
+        return mycurl_h.response;
+
+}
+
+void jsonTest( string json ) {
+
+	JsonStrParser p = JsonStrParser( json );
+	p.print_output();
+
 }
 
 int main() {
 
 	string url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Vancouver+BC|Seattle&destinations=San+Francisco|Victoria+BC&mode=bicycling&language=fr-FR&key=AIzaSyD4TY0ecKKJWFvr_mVy96t5Pe2-yDaA7Gg";
 
-	curlTest( url );
+	string json = curlTest( url );
+
+	jsonTest( json );
 
 	return 0;
 }
