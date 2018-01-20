@@ -7,6 +7,5 @@
 
 using namespace std;
 
-void curlTest( string urls );
 
 #endif

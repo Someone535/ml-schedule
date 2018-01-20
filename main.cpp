@@ -1,9 +1,19 @@
 #include <iostream>
 #include <string>
 
-#include "maps.h"
+#include "mycurl.h"
 
 using namespace std;
+
+void curlTest ( string url_string ) {
+
+        mycurl mycurl_h;
+
+        mycurl_h.send_url( url_string );
+
+        string data = mycurl_h.response;
+                                                                                                                  cout << endl << data << endl;                                                                     
+}
 
 int main() {
 
