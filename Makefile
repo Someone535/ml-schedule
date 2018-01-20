@@ -4,13 +4,12 @@ CFLAGS = -L /data/data/com.termux/files/lib -l curl -I /data/data/com.termux/fil
 
 TARGET = schedule
 
-OBJECTS =  main.o maps.o mycurl.o
+OBJECTS =  main.o mycurl.o
 
 $(TARGET) : $(OBJECTS)
 	$(CC) -o $(TARGET) $(CFLAGS) $(OBJECTS)
 
-main.o : maps.h
-maps.o : maps.h mycurl.h
+main.o : mycurl.h
 mycurl.o : mycurl.h
 
 .PHONY : clean
