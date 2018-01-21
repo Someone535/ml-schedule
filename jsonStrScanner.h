@@ -16,16 +16,22 @@ class JsonStrScanner {
 	int current;
 	vector<Token> tokens;
 
-	vector<Token> parse();
+	void addToken( token_type t, int c );
+	void addToken( token_type t, int c, string s );
+	void addToken( token_type t, int c, double d );
 
 	char consume();
 	void advance();
 	char peek();
+	bool atEnd();
+
+	void scan_token();
 
 	public:
 
 	JsonStrScanner( string input );
 	void print_tokens();
+	vector<Token> return_tokens() { return tokens; }
 
 };
 
