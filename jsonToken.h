@@ -14,15 +14,19 @@ inline string to_string( token_type t ) {                                       
         }
 }
 
+struct lit {
+	double dbl;
+	string str;
+};
+
 class Token {                                                                                                     public:
                 token_type type;
                 int char_num;
-                void* literal;
+		lit literal;
 
                 Token( token_type t, int c, string s );
                 Token( token_type t, int c, double d );
                 Token( token_type t, int c );
-                ~Token();
 };
 
 #endif

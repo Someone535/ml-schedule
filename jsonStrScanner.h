@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 #include "jsonToken.h"
 
@@ -23,7 +24,10 @@ class JsonStrScanner {
 	char consume();
 	void advance();
 	char peek();
+	char peek_twice();
 	bool atEnd();
+	bool nearEnd();
+	bool isNum( char c );
 
 	void scan_token();
 
