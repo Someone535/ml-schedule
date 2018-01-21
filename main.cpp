@@ -2,6 +2,7 @@
 #include <string>
 
 #include "mycurl.h"
+#include "jsonStrScanner.h"
 
 using namespace std;
 
@@ -17,8 +18,8 @@ string curlTest ( string url_string ) {
 
 void jsonTest( string json ) {
 
-	JsonStrParser p = JsonStrParser( json );
-	p.print_output();
+	JsonStrScanner s = JsonStrScanner( json );
+	s.print_tokens();
 
 }
 
