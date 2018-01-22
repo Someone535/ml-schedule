@@ -3,6 +3,7 @@
 void JsonStrScanner::addToken( token_type t, int c ) { tokens.push_back( Token( t, c ) ); }
 void JsonStrScanner::addToken( token_type t, int c, string s ) { tokens.push_back( Token( t, c, s ) ); }
 void JsonStrScanner::addToken( token_type t, int c, double d ) { tokens.push_back( Token( t, c, d ) ); }
+void JsonStrScanner::addToken( token_type t, int c, bool b ) { tokens.push_back( Token( t, c, b ) ); }
 
 char JsonStrScanner::consume() { return file[current++]; }
 void JsonStrScanner::advance() { current++; }
@@ -10,7 +11,6 @@ char JsonStrScanner::peek() { return file[current]; }
 char JsonStrScanner::peek_twice() { return file[current + 1]; }
 bool JsonStrScanner::atEnd() { return current >= file.length(); }
 bool JsonStrScanner::nearEnd() { return current + 1 >= file.length(); }
-bool JsonStrScanner::isNum( char c ) { return ( c == '-' ) or ( 48 < c and c < 57 ); }
 
 void JsonStrScanner::scan_token() {
 	char c = consume();
@@ -35,17 +35,40 @@ void JsonStrScanner::scan_token() {
 			   advance();
 			   break;
 
+		case 't': {
+			   string sample = file.substr( start, 4);
+			   if ( sample.compare( "true" ) == 0 ) {
+				advance(); advance(); advance();
+				addToken( BOOL, start, true );
+				break;
+			   }
+		}
+		case 'f': {
+			   string sample = file.substr( start, 5);
+			   if ( sample.compare( "false" ) == 0 ) {
+				advance(); advance(); advance();
+				addToken( BOOL, start, false );
+				break;
+			   }
+		}
+
 		default: 
-			if ( isNum(c) ) {
-				while ( isNum( peek() ) or peek() == '.' ) {
+			if ( isdigit(c) or c == '-' ) {
+				while ( isdigit( peek() ) ) { advance(); }
+				if ( peek() == '.' ) { 
 					advance();
-					if ( !nearEnd() && isNum( peek_twice() ) ) {
+					while ( isdigit( peek() ) ) { advance(); }
+				}
+				if ( peek() == 'E' or peek() == 'e' ) {
+					advance();
+					if ( peek() == '-' or peek() == '+' or isdigit( peek() ) ) {
 						advance();
-						while ( isNum( peek() ) ) { advance(); }
+						while( isdigit( peek() ) ) { advance(); }
 					}
 				}
 				double num = atof( file.substr( start, current - start ).c_str() );
 				addToken( NUMBER, start, num );
+				break;
 			}
 			break;
 	}
@@ -54,7 +77,7 @@ void JsonStrScanner::scan_token() {
 
 JsonStrScanner::JsonStrScanner( string input ) {
 
-	file = "test {1.2}[],:\"abcd\"{} ,;\"poop\"{55";
+	file = "tfalse{1.2e1}[],:\"abcd\"{}\"poop\"{-55E-3";
 	cout<<file<<endl<<endl;
 
 	start = 0;
@@ -66,14 +89,9 @@ JsonStrScanner::JsonStrScanner( string input ) {
 }
 
 void JsonStrScanner::print_tokens() {
+	cout << "Printing Tokens..." << endl;
 	for ( Token t : tokens ) {
-		cout << to_string( t.char_num) << " " << to_string( t.type );
-		if ( t.type == NUMBER ) {
-			cout << " " << to_string( t.literal.dbl );
-		}
-		else if ( t.type == STRING ) {
-			cout << " " << t.literal.str;
-		}
-		cout << endl;
+		cout << t.to_string() << endl;
 	}
+	cout << endl;
 }

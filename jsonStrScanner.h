@@ -20,9 +20,11 @@ class JsonStrScanner {
 	void addToken( token_type t, int c );
 	void addToken( token_type t, int c, string s );
 	void addToken( token_type t, int c, double d );
+	void addToken( token_type t, int c, bool b );
 
 	char consume();
 	void advance();
+	bool cond_adv( char c );
 	char peek();
 	char peek_twice();
 	bool atEnd();
