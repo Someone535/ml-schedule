@@ -6,79 +6,27 @@
 #include <iostream>
 
 #include "jsonToken.h"
+#include "jsonValue.h"
 
-enum json_value_type {
-	JSON_V_STRING,
-	JSON_V_NUMBER,
-	JSON_V_BOOL,
-	JSON_V_NULL,
-	JSON_V_PAIR,
-	JSON_V_OBJECT,
-	JSON_V_ARRAY
-};
+using namespace std;
 
-class JsonVisitor;
+class JsonStrParser {
 
-class JsonValue {
-	public:
-		void accept_visitor( JsonVisitor visitor );
-		json_value_type type;
-		JsonValue( json_value_type t ) : type(t) {}
-};
+        int current;
+        vector<Token> tokens;
+        JsonValue* output;
 
-class JsonString: public JsonValue {
-	public:
-		string value;
-		JsonString( string s ) : JsonValue( JSON_V_STRING ), value(s) {}
-};
+	Token consume();
+	Token peek();
+	Token previous();
+	bool match( token_type types );
+	bool check( token_type t );
+	bool atEnd();
 
-class JsonNumber: public JsonValue {
-	public:
-		double value;
-		JsonNumber( double d ) : JsonValue( JSON_V_NUMBER ), value(d) {}
-};
+        public:
 
-class JsonBool: public JsonValue {
-	public:
-		bool value;
-		JsonBool( bool b ) : JsonValue( JSON_V_BOOL ), value(b) {}
-};
+        JsonStrParser( vector<Token> input );
 
-class JsonNull: public JsonValue {
-	public:
-		JsonNull() : JsonValue( JSON_V_NULL ) {}
-};
-
-class JsonPair: public JsonValue {
-	public:
-		string name;
-		JsonValue value;
-		JsonPair( string s, JsonValue v ) : JsonValue( JSON_V_PAIR ), name(s), value(v) {}
-};
-
-class JsonObject: public JsonValue {
-	public:
-		vector<JsonPair> members;
-		JsonObject() : JsonValue( JSON_V_OBJECT ) {}
-		void add_member( JsonPair p ) { members.push_back( p ); }
-};
-
-class JsonArray: public JsonValue {
-	public:
-		vector<JsonValue> elements; 
-		JsonArray() : JsonValue( JSON_V_ARRAY ) {}
-		void add_element( JsonValue e) { elements.push_back( e ); }
-};
-
-class JsonVisitor {
-	public:
-		void visit_string( JsonString s );
-		void visit_number( JsonNumber n );
-		void visit_bool( JsonBool b );
-		void visit_null( JsonNull n );
-		void visit_pair( JsonPair p );
-		void visit_object( JsonObject o );
-		void visit_array( JsonArray a );
 };
 
 #endif

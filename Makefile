@@ -13,7 +13,7 @@ main.o : mycurl.h jsonStrScanner.h
 mycurl.o : mycurl.h
 jsonToken.o : jsonToken.h
 jsonStrScanner.o : jsonToken.h jsonStrScanner.h
-jsonStrParser.o : jsonToken.h jsonStrParser.h
+jsonStrParser.o : jsonToken.h jsonStrParser.h jsonValue.h
 
 .PHONY : clean
 clean :
