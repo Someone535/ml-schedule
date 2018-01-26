@@ -83,4 +83,8 @@ JsonStrParser::JsonStrParser( vector<Token> input ) : tokens(input), output(Json
 
 	output = parse_value();
 
+	output = JsonString( "test" );
+
+	JsonValuePrinter printer = JsonValuePrinter( &output );
+	
 }

@@ -3,7 +3,7 @@
 size_t mycurl::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) {
 	
 	static_cast<string*>(up)->clear();
-	static_cast<string*>(up)->append( buf );
+	static_cast<string*>(up)->append( buf, size*nmemb );
 
         return size*nmemb;
 

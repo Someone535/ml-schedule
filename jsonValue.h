@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "jsonToken.h"
 
@@ -85,13 +86,25 @@ class JsonVisitor {
 		virtual void visit_pair( JsonPair* p ) = 0;
 		virtual void visit_object( JsonObject* o ) = 0;
 		virtual void visit_array( JsonArray* a ) = 0;
+
+		void visit_value( JsonValue* v );
 };
 
-void JsonString::accept_visitor( JsonVisitor v ) { v.visit_string( this ); }
-void JsonNumber::accept_visitor( JsonVisitor v ) { v.visit_number( this ); }
-void JsonBool::accept_visitor( JsonVisitor v ) { v.visit_bool( this ); }
-void JsonPair::accept_visitor( JsonVisitor v ) { v.visit_pair( this ); }
-void JsonObject::accept_visitor( JsonVisitor v ) { v.visit_object( this ); }
-void JsonArray::accept_visitor( JsonVisitor v ) { v.visit_array( this ); }
+class JsonValuePrinter : public JsonVisitor {
+
+	int depth = 0;
+
+	public:
+
+		JsonValuePrinter( JsonValue* v ) { visit_value( v ); }
+
+		void visit_string( JsonString* s );
+                void visit_number( JsonNumber* n );
+                void visit_bool( JsonBool* b );
+                void visit_null( JsonNull* n );
+                void visit_pair( JsonPair* p );
+                void visit_object( JsonObject* o );
+                void visit_array( JsonArray* a );
+};
 
 #endif

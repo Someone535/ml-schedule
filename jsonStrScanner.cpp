@@ -77,8 +77,7 @@ void JsonStrScanner::scan_token() {
 
 JsonStrScanner::JsonStrScanner( string input ) {
 
-	file = "tfalse{1.2e1}[],:\"abcd\"{}\"poop\"{-55E-3";
-	cout<<file<<endl<<endl;
+	file = input;
 
 	start = 0;
 	current = 0;
