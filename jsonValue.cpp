@@ -1,5 +1,33 @@
 #include "jsonValue.h"
 
+JsonValue::~JsonValue() {
+	//cout<<"jsonValue destructor"<<to_string(type)<<endl;
+	switch (type) {
+		case JSON_V_STRING: delete (JsonString*)this; break;
+		case JSON_V_NUMBER: delete (JsonNumber*)this; break;
+		case JSON_V_BOOL: delete (JsonBool*)this; break;
+		case JSON_V_NULL: delete (JsonNull*)this; break;
+		case JSON_V_OBJECT: delete (JsonObject*)this; break;
+		case JSON_V_ARRAY: delete (JsonArray*)this; break;
+		case JSON_V_PAIR: delete (JsonPair*)this; break;
+	}
+}
+
+JsonObject::~JsonObject() {
+	cout << " JsonObject Destructor "<< endl;
+	for ( JsonPair* p : members ) delete p;
+}
+
+JsonArray::~JsonArray() {
+	cout << " JsonArray Destructor " <<endl;
+	for ( JsonValue* v : elements ) delete v; 
+}
+
+JsonPair::~JsonPair() {
+	cout << " JsonPair Destructor " << name <<  endl;
+	delete value;
+}
+
 void JsonVisitor::visit_value( JsonValue* v ) {
 
 	switch ( v->type ) {
@@ -39,18 +67,21 @@ void JsonValuePrinter::visit_bool( JsonBool* b ) {
 
 void JsonValuePrinter::visit_pair( JsonPair* p ) {
 	cout << p->name << " : ";
-	visit_value( &p->value );
+	depth += p->name.length() + 3;
+	visit_value( p->value );
+	depth -= p->name.length() + 3;
 }
 
 void JsonValuePrinter::visit_object( JsonObject* o ) {
 	cout << "{" << endl;
-	depth++;
+	depth += 2;
 	for ( auto m : o->members ) {
-		for ( int i = 0; i < depth; i++ ) cout << "  ";
-		visit_pair( &m );
+		for ( int i = 0; i < depth; i++ ) cout << " ";
+		visit_pair( m );
 		cout << endl;
 	}
-	depth--;
+	depth -= 2;
+	for ( int i = 0; i < depth; i++ ) cout << " ";
 	cout << "}";
 }
 
@@ -59,7 +90,7 @@ void JsonValuePrinter::visit_array( JsonArray* a ) {
 	depth++;
 	for ( auto e : a->elements ) {
 		for ( int i = 0; i < depth; i++ ) cout << "  ";
-		visit_value( &e );
+		visit_value( e );
 		cout << endl;
 	}
 	depth--;

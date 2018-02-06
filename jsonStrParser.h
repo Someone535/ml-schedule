@@ -14,7 +14,7 @@ class JsonStrParser {
 
         int current;
         vector<Token> tokens;
-        JsonValue output;
+        JsonValue* output;
 
 	Token consume();
 	Token peek();
@@ -24,14 +24,16 @@ class JsonStrParser {
 	bool check( token_type t );
 	bool atEnd();
 
-	JsonValue parse_value();
-	JsonObject parse_object();
-	JsonArray parse_array();
-	JsonPair parse_pair();
+	JsonValue* parse_value();
+	JsonObject* parse_object();
+	JsonArray* parse_array();
+	JsonPair* parse_pair();
 
         public:
 
         JsonStrParser( vector<Token> input );
+	~JsonStrParser() { delete output; output = nullptr; }
+	JsonValue* return_output() { return output; }
 
 };
 

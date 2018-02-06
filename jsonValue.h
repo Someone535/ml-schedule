@@ -23,6 +23,7 @@ class JsonValue {
 	public:
 		json_value_type type;
 		JsonValue( json_value_type t ) : type(t) {}
+		~JsonValue();
 		void accept_visitor( JsonVisitor visitor );
 };
 
@@ -56,24 +57,27 @@ class JsonNull: public JsonValue {
 class JsonPair: public JsonValue {
 	public:
 		string name;
-		JsonValue value;
-		JsonPair( string s, JsonValue v ) : JsonValue( JSON_V_PAIR ), name(s), value(v) {}
+		JsonValue* value;
+		JsonPair( string s, JsonValue* v ) : JsonValue( JSON_V_PAIR ), name(s), value(v) {}
+		~JsonPair();
 		/* virtual */ void accept_visitor( JsonVisitor v );
 };
 
 class JsonObject: public JsonValue {
 	public:
-		vector<JsonPair> members;
+		vector<JsonPair*> members;
 		JsonObject() : JsonValue( JSON_V_OBJECT ) {}
-		void add_member( JsonPair p ) { members.push_back( p ); }
+		~JsonObject();
+		void add_member( JsonPair* p ) { members.push_back( p ); }
 		/* virtual */ void accept_visitor( JsonVisitor v );
 };
 
 class JsonArray: public JsonValue {
 	public:
-		vector<JsonValue> elements; 
+		vector<JsonValue*> elements; 
 		JsonArray() : JsonValue( JSON_V_ARRAY ) {}
-		void add_element( JsonValue e) { elements.push_back( e ); }
+		~JsonArray();
+		void add_element( JsonValue* e ) { elements.push_back( e ); }
 		/* virtual */ void accept_visitor( JsonVisitor v );
 };
 
@@ -96,7 +100,7 @@ class JsonValuePrinter : public JsonVisitor {
 
 	public:
 
-		JsonValuePrinter( JsonValue* v ) { visit_value( v ); }
+		JsonValuePrinter( JsonValue* v ) { visit_value( v ); cout << endl << endl; }
 
 		void visit_string( JsonString* s );
                 void visit_number( JsonNumber* n );

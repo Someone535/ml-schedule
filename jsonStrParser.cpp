@@ -16,7 +16,7 @@ bool JsonStrParser::check( token_type t ) {
 }
 bool JsonStrParser::atEnd() { return current >= tokens.size(); }
 
-JsonValue JsonStrParser::parse_value() {
+JsonValue* JsonStrParser::parse_value() {
 
 	Token t = peek();
 
@@ -24,25 +24,25 @@ JsonValue JsonStrParser::parse_value() {
 
 		case LEFTCURLY: return parse_object();
 		case LEFTSQUARE: return parse_array();
-		case STRING: advance(); return JsonString( t.literal.str );
-		case NUMBER: advance(); return JsonNumber( t.literal.dbl );
-		case BOOL: advance(); return JsonBool( t.literal.bl );
-		case NILL: advance(); return JsonNull();
+		case STRING: advance(); return new JsonString( t.literal.str );
+		case NUMBER: advance(); return new JsonNumber( t.literal.dbl );
+		case BOOL: advance(); return new JsonBool( t.literal.bl );
+		case NILL: advance(); return new JsonNull();
 
 		default:
-			return JsonNull();
+			return nullptr;
 	}
 
 }
 
-JsonObject JsonStrParser::parse_object() {
+JsonObject* JsonStrParser::parse_object() {
 
-	JsonObject obj;
+	JsonObject* obj = new JsonObject();
 
 	advance();
 
 	while ( peek().type != RIGHTCURLY ) {
-		obj.add_member( parse_pair() );
+		obj->add_member( parse_pair() );
 		if ( peek().type == COMMA ) advance();
 	}
 
@@ -51,26 +51,26 @@ JsonObject JsonStrParser::parse_object() {
 	return obj;
 }
 
-JsonPair JsonStrParser::parse_pair() {
+JsonPair* JsonStrParser::parse_pair() {
 
 	string n = consume().literal.str;
 
 	advance();
 
-	JsonValue v = parse_value();
+	JsonValue* v = parse_value();
 
-	return JsonPair( n, v );
+	return new JsonPair( n, v );
 
 }
 
-JsonArray JsonStrParser::parse_array() {
+JsonArray* JsonStrParser::parse_array() {
 
-	JsonArray arr;
+	JsonArray* arr = new JsonArray();
 
 	advance();
 
 	while ( peek().type != RIGHTSQUARE ) {
-		arr.add_element( parse_value() );
+		arr->add_element( parse_value() );
 		if ( peek().type == COMMA ) advance();
 	}
 
@@ -79,12 +79,8 @@ JsonArray JsonStrParser::parse_array() {
 	return arr;
 }
 
-JsonStrParser::JsonStrParser( vector<Token> input ) : tokens(input), output(JsonNull()), current(0) {
+JsonStrParser::JsonStrParser( vector<Token> input ) : tokens(input), current(0), output(nullptr) {
 
 	output = parse_value();
 
-	output = JsonString( "test" );
-
-	JsonValuePrinter printer = JsonValuePrinter( &output );
-	
 }
