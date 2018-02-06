@@ -7,11 +7,10 @@
 using namespace std;
 
 class mycurl {
+	string response;
 	static size_t writeCallback ( char* buf, size_t size, size_t nmemb, void* up );
-
 	public:
-		string response;
-		void send_url( string url );
+		string send_url( string url );
 };
 
 #endif

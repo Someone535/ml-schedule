@@ -2,14 +2,13 @@
 
 size_t mycurl::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) {
 	
-	static_cast<string*>(up)->clear();
 	static_cast<string*>(up)->append( buf, size*nmemb );
 
         return size*nmemb;
 
 }
 
-void mycurl::send_url( string url ) {
+string mycurl::send_url( string url ) {
 
         CURL* curl_handle;
 
@@ -24,5 +23,7 @@ void mycurl::send_url( string url ) {
 
         curl_easy_cleanup( curl_handle );
         curl_global_cleanup();
+
+	return response;
 
 }

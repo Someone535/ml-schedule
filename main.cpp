@@ -12,9 +12,7 @@ string curlTest ( string url_string ) {
 
         mycurl mycurl_h;
 
-        mycurl_h.send_url( url_string );
-
-        return mycurl_h.response;
+        return mycurl_h.send_url( url_string );
 
 }
 

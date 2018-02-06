@@ -60,12 +60,12 @@ void JsonValuePrinter::visit_object( JsonObject* o ) {
 	cout << "{" << endl;
 	depth += 2;
 	for ( auto m : o->members ) {
-		for ( int i = 0; i < depth; i++ ) cout << " ";
+		cout << string( depth, ' ' );
 		visit_pair( m );
 		cout << endl;
 	}
 	depth -= 2;
-	for ( int i = 0; i < depth; i++ ) cout << " ";
+	cout << string( depth, ' ' );
 	cout << "}";
 }
 
@@ -73,11 +73,12 @@ void JsonValuePrinter::visit_array( JsonArray* a ) {
 	cout << "[" << endl;
 	depth++;
 	for ( auto e : a->elements ) {
-		for ( int i = 0; i < depth; i++ ) cout << "  ";
+		cout << string( depth, ' ' );
 		visit_value( e );
 		cout << endl;
 	}
 	depth--;
+	cout << string( depth, ' ' );
 	cout << "]";
 }
 
