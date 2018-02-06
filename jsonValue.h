@@ -23,7 +23,7 @@ class JsonValue {
 	public:
 		json_value_type type;
 		JsonValue( json_value_type t ) : type(t) {}
-		~JsonValue();
+		virtual ~JsonValue() {}
 		void accept_visitor( JsonVisitor visitor );
 };
 

@@ -1,30 +1,14 @@
 #include "jsonValue.h"
 
-JsonValue::~JsonValue() {
-	//cout<<"jsonValue destructor"<<to_string(type)<<endl;
-	switch (type) {
-		case JSON_V_STRING: delete (JsonString*)this; break;
-		case JSON_V_NUMBER: delete (JsonNumber*)this; break;
-		case JSON_V_BOOL: delete (JsonBool*)this; break;
-		case JSON_V_NULL: delete (JsonNull*)this; break;
-		case JSON_V_OBJECT: delete (JsonObject*)this; break;
-		case JSON_V_ARRAY: delete (JsonArray*)this; break;
-		case JSON_V_PAIR: delete (JsonPair*)this; break;
-	}
-}
-
 JsonObject::~JsonObject() {
-	cout << " JsonObject Destructor "<< endl;
 	for ( JsonPair* p : members ) delete p;
 }
 
 JsonArray::~JsonArray() {
-	cout << " JsonArray Destructor " <<endl;
 	for ( JsonValue* v : elements ) delete v; 
 }
 
 JsonPair::~JsonPair() {
-	cout << " JsonPair Destructor " << name <<  endl;
 	delete value;
 }
 
