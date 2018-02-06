@@ -10,9 +10,7 @@ using namespace std;
 
 string curlTest ( string url_string ) {
 
-        mycurl mycurl_h;
-
-        return mycurl_h.send_url( url_string );
+        return MyCURL::send_url( url_string );
 
 }
 

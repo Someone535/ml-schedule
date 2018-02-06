@@ -1,6 +1,6 @@
 #include "mycurl.h"
 
-size_t mycurl::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) {
+size_t MyCURL::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) {
 	
 	static_cast<string*>(up)->append( buf, size*nmemb );
 
@@ -8,7 +8,9 @@ size_t mycurl::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) 
 
 }
 
-string mycurl::send_url( string url ) {
+string MyCURL::send_url( string url ) {
+
+	string response;
 
         CURL* curl_handle;
 
@@ -17,7 +19,7 @@ string mycurl::send_url( string url ) {
 
         curl_easy_setopt( curl_handle, CURLOPT_URL, url.c_str() );
 	curl_easy_setopt( curl_handle, CURLOPT_WRITEDATA, &response );
-        curl_easy_setopt( curl_handle, CURLOPT_WRITEFUNCTION, &mycurl::writeCallback );
+        curl_easy_setopt( curl_handle, CURLOPT_WRITEFUNCTION, &MyCURL::writeCallback );
 
         curl_easy_perform( curl_handle );
 
