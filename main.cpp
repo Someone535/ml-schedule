@@ -32,7 +32,7 @@ void jsonTest( string json ) {
 
 	JsonStrParser p = JsonStrParser( s.return_tokens() );
 
-	JsonValuePrinter printer = JsonValuePrinter( p.return_output() );
+	JsonValuePrinter printer( p.return_output() );
 
 }
 
