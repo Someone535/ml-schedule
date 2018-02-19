@@ -1,5 +1,7 @@
 #include "mycurl.h"
 
+MyCURL* MyCURL::instance = 0;
+
 size_t MyCURL::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) {
 	
 	static_cast<string*>(up)->append( buf, size*nmemb );
@@ -9,6 +11,14 @@ size_t MyCURL::writeCallback ( char* buf, size_t size, size_t nmemb, void* up ) 
 }
 
 string MyCURL::send_url( string url ) {
+
+	if ( instance == 0 ) instance = new MyCURL();
+
+	return instance->_send_url( url );
+
+}
+
+string MyCURL::_send_url( string url ) {
 
 	string response;
 
