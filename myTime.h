@@ -32,7 +32,7 @@ enum myWDay_t {
 };
 
 class MyDateTime {
-	private:
+	protected:
 		int mday;
 		myMonth_t month;
 		int year;
@@ -42,7 +42,8 @@ class MyDateTime {
 		int sec;
 		int msec;
 
-		myWDay_t calc_wday();
+		std::tm to_tm();
+		void calc_wday();
 
 	public:
 		MyDateTime( size_t mday, myMonth_t month, size_t year, 
@@ -55,16 +56,16 @@ class MyDateTime {
 		virtual MyDateTime prev_in_context( MyDateTime context );
 		virtual MyDateTime nearest_in_context( MyDateTime context );
 
-		bool operator<( MyDateTime limit& );
+		bool operator<( const MyDateTime& limit );
 		virtual bool is_before( MyDateTime limit );
 
-		bool operator>( MyDateTime limit& );
+		bool operator>( const MyDateTime& limit );
 		virtual bool is_after( MyDateTime limit );
 
-		bool operator==( MyDateTime limit& );
+		bool operator==( const MyDateTime& limit );
 		virtual bool is_equal( MyDateTime limit );
 
-		bool operator-( MyDateTime limit& );
+		bool operator-( const MyDateTime& limit );
 		virtual MyDateTime diff( MyDateTime other_dt );
 
 		virtual std::string to_string();
@@ -98,6 +99,11 @@ class MyMonth : public MyDateTime {
 class MyYear : public MyDateTime {
 	public:
 		MyYear( size_t year );
+};
+
+class MyDayMonth : public MyDateTime {
+	public:
+		MyDayMonth( size_t day, myMonth_t month );
 };
 
 class MyWeekDay : public MyDateTime {
