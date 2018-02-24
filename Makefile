@@ -4,7 +4,7 @@ CFLAGS = -L /data/data/com.termux/files/lib -l curl -I /data/data/com.termux/fil
 
 TARGET = schedule
 
-OBJECTS =  main.o mycurl.o jsonToken.o jsonStrScanner.o jsonStrParser.o jsonValue.o
+OBJECTS =  main.o mycurl.o jsonToken.o jsonStrScanner.o jsonStrParser.o jsonValue.o jsonStr.o
 
 $(TARGET) : $(OBJECTS)
 	$(CC) -o $(TARGET) $(CFLAGS) $(OBJECTS)
@@ -15,6 +15,7 @@ jsonToken.o : jsonToken.h
 jsonStrScanner.o : jsonToken.h jsonStrScanner.h
 jsonStrParser.o : jsonToken.h jsonStrParser.h jsonValue.h
 jsonValue.o : jsonValue.h jsonToken.h
+jsonStr.o : jsonValue.h jsonStrScanner.h jsonStrParser.h
 
 .PHONY : clean
 clean :
