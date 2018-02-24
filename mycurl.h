@@ -15,7 +15,7 @@ class MyCURL {
 	private:
 		static MyCURL* instance;
 		string _send_url( string url );
-		size_t writeCallback ( char* buf, size_t size, size_t nmemb, void* up );
+		static size_t writeCallback ( char* buf, size_t size, size_t nmemb, void* up );
 };
 
 #endif

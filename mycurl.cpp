@@ -29,6 +29,7 @@ string MyCURL::_send_url( string url ) {
 
         curl_easy_setopt( curl_handle, CURLOPT_URL, url.c_str() );
 	curl_easy_setopt( curl_handle, CURLOPT_WRITEDATA, &response );
+
         curl_easy_setopt( curl_handle, CURLOPT_WRITEFUNCTION, &MyCURL::writeCallback );
 
         curl_easy_perform( curl_handle );
