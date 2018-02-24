@@ -2,9 +2,7 @@
 #include <string>
 
 #include "mycurl.h"
-#include "jsonStrScanner.h"
-#include "jsonStrParser.h"
-#include "jsonValue.h"
+#include "jsonStr.h"
 
 using namespace std;
 
@@ -22,24 +20,22 @@ void jsonTest( string json ) {
 
 	cout << "-----Tokens-----" << endl << endl;
 
-	JsonStrScanner s = JsonStrScanner( json );
+	JsonStr s = JsonStr( json );
 
-	s.print_tokens();
+	s.print_scanner_tokens();
 
 	cout << endl;
 
 	cout << "-----Json Parser Output-----" << endl << endl;
 
-	JsonStrParser p = JsonStrParser( s.return_tokens() );
-
-	JsonValuePrinter printer( p.return_output() );
+	JsonValuePrinter printer = JsonValuePrinter( s.return_result() );
 
 }
 
 int main() {
 
 	string url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Vancouver+BC|Seattle&destinations=San+Francisco|Victoria+BC&mode=bicycling&language=fr-FR&key=AIzaSyD4TY0ecKKJWFvr_mVy96t5Pe2-yDaA7Gg";
-
+	
 	string json = curlTest( url );
 
 	//string json = " { \"members\" : { \"a\" : 5.2 , \"b\" : true } , \"status\" : \"good\" } ";
