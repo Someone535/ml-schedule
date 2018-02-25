@@ -28,14 +28,14 @@ void JsonVisitor::visit_value( JsonValue* v ) {
 
 }
 
-void JsonValue::accept_visitor( JsonVisitor v ) { v.visit_value( this ); }
-void JsonString::accept_visitor( JsonVisitor v ) { v.visit_string( this ); }
-void JsonNumber::accept_visitor( JsonVisitor v ) { v.visit_number( this ); }
-void JsonBool::accept_visitor( JsonVisitor v ) { v.visit_bool( this ); }
-void JsonPair::accept_visitor( JsonVisitor v ) { v.visit_pair( this ); }
-void JsonObject::accept_visitor( JsonVisitor v ) { v.visit_object( this ); }
-void JsonArray::accept_visitor( JsonVisitor v ) { v.visit_array( this ); }
-void JsonNull::accept_visitor( JsonVisitor v ) { v.visit_null( this ); }
+void JsonValue::accept_visitor( JsonVisitor* v ) { v->visit_value( this ); }
+void JsonString::accept_visitor( JsonVisitor* v ) { v->visit_string( this ); }
+void JsonNumber::accept_visitor( JsonVisitor* v ) { v->visit_number( this ); }
+void JsonBool::accept_visitor( JsonVisitor* v ) { v->visit_bool( this ); }
+void JsonPair::accept_visitor( JsonVisitor* v ) { v->visit_pair( this ); }
+void JsonObject::accept_visitor( JsonVisitor* v ) { v->visit_object( this ); }
+void JsonArray::accept_visitor( JsonVisitor* v ) { v->visit_array( this ); }
+void JsonNull::accept_visitor( JsonVisitor* v ) { v->visit_null( this ); }
 
 void JsonValuePrinter::visit_string( JsonString* s ) {
 	cout << "str " << s->value;

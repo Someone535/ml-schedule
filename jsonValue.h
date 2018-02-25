@@ -24,34 +24,34 @@ class JsonValue {
 		json_value_type type;
 		JsonValue( json_value_type t ) : type(t) {}
 		virtual ~JsonValue() {}
-		void accept_visitor( JsonVisitor visitor );
+		virtual void accept_visitor( JsonVisitor* visitor );
 };
 
 class JsonString: public JsonValue {
 	public:
 		string value;
 		JsonString( string s ) : JsonValue( JSON_V_STRING ), value(s) {}
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonNumber: public JsonValue {
 	public:
 		double value;
 		JsonNumber( double d ) : JsonValue( JSON_V_NUMBER ), value(d) {}
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonBool: public JsonValue {
 	public:
 		bool value;
 		JsonBool( bool b ) : JsonValue( JSON_V_BOOL ), value(b) {}
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonNull: public JsonValue {
 	public:
 		JsonNull() : JsonValue( JSON_V_NULL ) {}
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonPair: public JsonValue {
@@ -60,7 +60,7 @@ class JsonPair: public JsonValue {
 		JsonValue* value;
 		JsonPair( string s, JsonValue* v ) : JsonValue( JSON_V_PAIR ), name(s), value(v) {}
 		~JsonPair();
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonObject: public JsonValue {
@@ -69,7 +69,7 @@ class JsonObject: public JsonValue {
 		JsonObject() : JsonValue( JSON_V_OBJECT ) {}
 		~JsonObject();
 		void add_member( JsonPair* p ) { members.push_back( p ); }
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonArray: public JsonValue {
@@ -78,7 +78,7 @@ class JsonArray: public JsonValue {
 		JsonArray() : JsonValue( JSON_V_ARRAY ) {}
 		~JsonArray();
 		void add_element( JsonValue* e ) { elements.push_back( e ); }
-		/* virtual */ void accept_visitor( JsonVisitor v );
+		/* virtual */ void accept_visitor( JsonVisitor* v );
 };
 
 class JsonVisitor {

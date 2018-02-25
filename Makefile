@@ -1,6 +1,6 @@
 CC = clang++
 
-CFLAGS = -L /data/data/com.termux/files/lib -l curl -I /data/data/com.termux/files/usr/include
+CFLAGS = -L /data/data/com.termux/files/lib -l curl -I /data/data/com.termux/files/usr/include -std=c++17
 
 TARGET = schedule
 
@@ -9,7 +9,7 @@ OBJECTS =  main.o mycurl.o jsonToken.o jsonStrScanner.o jsonStrParser.o jsonValu
 $(TARGET) : $(OBJECTS)
 	$(CC) -o $(TARGET) $(CFLAGS) $(OBJECTS)
 
-main.o : mycurl.h jsonStrScanner.h
+main.o : mycurl.h jsonStr.h
 mycurl.o : mycurl.h
 jsonToken.o : jsonToken.h
 jsonStrScanner.o : jsonToken.h jsonStrScanner.h
